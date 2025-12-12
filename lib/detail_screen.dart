@@ -199,7 +199,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                if (qty > 1) {
+                                if (qty > 0) {
                                   qty -= 1;
                                 }
                               });
