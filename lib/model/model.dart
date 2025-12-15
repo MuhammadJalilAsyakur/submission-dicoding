@@ -110,7 +110,7 @@ final List<Item> itemList = [
     Item(
     title: "Deep Work",
     author: "Cal Newport",
-    image: "https://m.media-amazon.com/images/I/71sH3vxziLL.jpg",
+    image: "https://m.media-amazon.com/images/I/91ZEUnFeUSL._SY445_SX342_FMwebp_.jpg",
     description:
         "Deep Work membahas kemampuan untuk fokus secara mendalam di dunia yang penuh distraksi. "
         "Cal Newport menjelaskan bahwa kemampuan berkonsentrasi tanpa gangguan adalah keterampilan langka namun sangat berharga. "
