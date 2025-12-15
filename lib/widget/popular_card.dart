@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/model/model.dart';
 
-
 class PopularCard extends StatelessWidget {
   final Item item;
 
@@ -14,9 +13,7 @@ class PopularCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (_) => DetailScreen(item: item),
-          ),
+          MaterialPageRoute(builder: (_) => DetailScreen(item: item)),
         );
       },
       child: Container(
@@ -45,10 +42,7 @@ class PopularCard extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: Image.network(
-                        item.image,
-                        fit: BoxFit.contain,
-                      ),
+                      child: Image.network(item.image, fit: BoxFit.contain),
                     ),
                   ),
                 ),
@@ -68,13 +62,17 @@ class PopularCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                       Text(
                         'By ${item.author}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.grey),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ],
                   ),

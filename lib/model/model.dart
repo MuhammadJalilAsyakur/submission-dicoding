@@ -180,7 +180,7 @@ final List<Item> itemList = [
   Item(
     title: "Man's Search for Meaning",
     author: "Viktor E. Frankl",
-    image: "https://m.media-amazon.com/images/I/71t6n2wq9JL.jpg",
+    image: "https://m.media-amazon.com/images/I/81UhnGT7BvL._SY466_.jpg",
     description:
         "Buku ini menceritakan pengalaman Viktor Frankl di kamp konsentrasi Nazi. "
         "Ia menjelaskan bahwa manusia dapat bertahan dalam penderitaan jika memiliki makna hidup. "
@@ -236,7 +236,7 @@ final List<Item> itemList = [
   Item(
     title: "Atomic Love",
     author: "Dr. Lisa Harper",
-    image: "https://m.media-amazon.com/images/I/61kRZpVZ0-L.jpg",
+    image: "https://m.media-amazon.com/images/I/41kfevCW8eL._SY445_SX342_FMwebp_.jpg",
     description:
         "Atomic Love membahas hubungan manusia dari sudut pandang psikologi modern. "
         "Buku ini mengajarkan bagaimana membangun hubungan sehat melalui komunikasi dan empati. "
