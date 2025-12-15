@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:submission_dicoding/splash_screen.dart';
+import 'package:submission_dicoding/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());

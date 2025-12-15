@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:submission_dicoding/home_screen.dart';
+import 'package:submission_dicoding/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

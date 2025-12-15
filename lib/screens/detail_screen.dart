@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'model.dart';
+import '../model/model.dart';
 
 class DetailScreen extends StatefulWidget {
   final Item item;
@@ -68,7 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            widget.item.author,
+                            'by ${widget.item.author}',
                             style: TextStyle(color: Colors.grey),
                           ),
                           SizedBox(height: 10),
@@ -158,7 +158,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
-                          color: Colors.green,
+                          color: Colors.green[900],
                         ),
                       ),
                     ],
@@ -246,7 +246,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 14, 97, 3),
+                        backgroundColor: Colors.green[900],
                         padding: EdgeInsets.symmetric(
                           horizontal: 32,
                           vertical: 14,
