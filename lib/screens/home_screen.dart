@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
   late List<Item> _randomItems;
+  String query = '';
 
   @override
   void initState() {
@@ -32,7 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
       const FavoriteScreen(),
       const SearchScreen(),
     ];
-
+    final results = itemList
+        .where((item) => item.title.toLowerCase().contains(query.toLowerCase()))
+        .toList();
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -96,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                        onChanged: (value) => setState(() => query = value),
                       ),
                     ),
                     GestureDetector(
@@ -139,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _sectionHeader('Popular Now'),
             const SizedBox(height: 12),
 
+            //widget popular list
             PopularList(
               items: popularItems,
               onRefresh: () {

@@ -1,4 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
 import 'package:flutter/material.dart';
 import 'package:submission_dicoding/model/favorite.dart';
@@ -98,7 +97,7 @@ class _PopularCardState extends State<PopularCard> {
                       } else {
                         favoriteItems.add(widget.item);
                       }
-                      widget.onRefresh.call();
+                      widget.onRefresh?.call();
                     });
                   },
                   // --- KAMU LUPA MENAMBAHKAN INI ---
