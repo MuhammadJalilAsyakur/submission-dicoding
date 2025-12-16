@@ -23,20 +23,92 @@ class _HomeScreenState extends State<HomeScreen> {
       const SearchScreen(),
     ];
 
-    return Scaffold(
-      body: pages[_index],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        selectedItemColor: const Color(0xFF0D1B2A),
-        onTap: (value) => setState(() => _index = value),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Favorite",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        appBar: _index == 0
+            ? AppBar(
+                scrolledUnderElevation: 0,
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                elevation: 0,
+                foregroundColor: Colors.black,
+                automaticallyImplyLeading: false,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Icon(Icons.grid_view, size: 28),
+                    SizedBox(
+                      height: 40,
+                      width: 300,
+                      child: TextField(
+                        textAlignVertical: TextAlignVertical.center,
+                        style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14,
+                        ),
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(color: Colors.grey[500]),
+                          prefixIcon: const Icon(Icons.search, size: 20),
+                          suffixIcon: const Icon(Icons.mic, size: 20),
+
+                          prefixIconConstraints: const BoxConstraints(
+                            minWidth: 40,
+                            minHeight: 40,
+                          ),
+                          suffixIconConstraints: const BoxConstraints(
+                            minWidth: 40,
+                            minHeight: 40,
+                          ),
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+
+                          filled: true,
+                          fillColor: Colors.white,
+
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                              width: 1.5,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Icon(Icons.shopping_bag_outlined, size: 28),
+                    ),
+                  ],
+                ),
+              )
+            : null,
+        body: pages[_index],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _index,
+          selectedItemColor: const Color(0xFF0D1B2A),
+          onTap: (value) => setState(() => _index = value),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: "Favorite",
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          ],
+        ),
       ),
     );
   }
@@ -54,6 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 24),
+
             _sectionHeader('Popular Now'),
             const SizedBox(height: 12),
 

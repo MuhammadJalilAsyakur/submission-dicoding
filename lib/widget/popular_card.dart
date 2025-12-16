@@ -12,7 +12,7 @@ class PopularCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context,
+          context,  
           MaterialPageRoute(builder: (_) => DetailScreen(item: item)),
         );
       },
