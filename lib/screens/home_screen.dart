@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:submission_dicoding/model/favorite.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/widget/popular_list.dart';
 import '../model/model.dart';
 import 'favorite_screen.dart';
 import 'search_screen.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +16,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
+  late List<Item> _randomItems;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _randomItems = List<Item>.from(itemList)..shuffle();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: _index == 0
             ? AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle.dark,
                 scrolledUnderElevation: 0,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.transparent,
                 surfaceTintColor: Colors.white,
                 elevation: 0,
                 foregroundColor: Colors.black,
@@ -99,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _index,
           selectedItemColor: const Color(0xFF0D1B2A),
+          backgroundColor: Colors.white,
           onTap: (value) => setState(() => _index = value),
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -114,8 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildHomePage(BuildContext context) {
-    final randomItems = List<Item>.from(itemList)..shuffle();
-
     final popularItems = itemList
         .where((item) => item.isPopular == true)
         .toList();
@@ -126,12 +136,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 24),
-
             _sectionHeader('Popular Now'),
             const SizedBox(height: 12),
 
-            PopularList(items: popularItems),
+            PopularList(
+              items: popularItems,
+              onRefresh: () {
+                setState(() {});
+              },
+            ),
+
             const SizedBox(height: 18),
             Column(
               children: [
@@ -142,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Column(
-              children: randomItems.map((item) {
+              children: _randomItems.map((item) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: GestureDetector(
@@ -176,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         const SizedBox(width: 12),
 
-                        // ===== TEXT =====
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,11 +250,43 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
 
-                        // ===== BOOKMARK =====
-                        const Icon(
-                          Icons.bookmark_border,
-                          size: 22,
-                          color: Colors.black87,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (favoriteItems.contains(item)) {
+                                favoriteItems.remove(item);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "${item.title} di hapus dari favorite",
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                favoriteItems.add(item);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "${item.title} di tambahkan ke favoite",
+                                    ),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
+                            });
+                          },
+                          child: Icon(
+                            favoriteItems.contains(item)
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                            size: 22,
+                            color: favoriteItems.contains(item)
+                                ? Colors.amber
+                                : Colors.black,
+                          ),
                         ),
                       ],
                     ),
