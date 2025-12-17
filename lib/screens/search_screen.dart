@@ -19,28 +19,30 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text("Search")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: "Search items...",
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  prefixIcon: Icon(Icons.search),
+                  hintText: "Search items...",
+                ),
+                onChanged: (value) => setState(() => query = value),
               ),
-              onChanged: (value) => setState(() => query = value),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: results.isEmpty
-                  ? const Center(child: Text("Item not found"))
-                  : ListView(
-                      children: results
-                          .map((e) => ListTile(title: Text(e.title)))
-                          .toList(),
-                    ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              Expanded(
+                child: results.isEmpty
+                    ? const Center(child: Text("Item not found"))
+                    : ListView(
+                        children: results
+                            .map((e) => ListTile(title: Text(e.title)))
+                            .toList(),
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
