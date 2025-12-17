@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/model.dart';
+import '../model/favorite.dart';
 
 class DetailScreen extends StatefulWidget {
   final Item item;
@@ -125,10 +126,27 @@ class _DetailScreenState extends State<DetailScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+                          ]
                         ),
                         child: IconButton(
-                          icon: Icon(Icons.bookmark_border),
-                          onPressed: () {},
+                          icon: Icon(favoriteItems.contains(widget.item)
+                          ? Icons.bookmark
+                          : Icons.bookmark_border),
+                          color: favoriteItems.contains(widget.item)
+                          ? Colors.amberAccent
+                          : Colors.grey,
+                          onPressed: () {
+                            setState(() {
+                              if(favoriteItems.contains(widget.item)){
+                                favoriteItems.remove(widget.item);
+
+                              } else{
+                                favoriteItems.add(widget.item);
+                              }
+                            });
+                          },
                         ),
                       ),
                     ),

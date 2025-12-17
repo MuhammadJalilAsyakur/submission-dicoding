@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:submission_dicoding/model/favorite.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
@@ -18,11 +19,15 @@ class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => DetailScreen(item: widget.item)),
         );
+        setState(() {
+          
+        });
+        widget.onRefresh?.call();
       },
       child: Container(
         width: 180,

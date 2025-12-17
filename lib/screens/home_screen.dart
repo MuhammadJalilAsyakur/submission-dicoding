@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:submission_dicoding/model/favorite.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
+import 'package:submission_dicoding/screens/search_page_screen.dart';
 import 'package:submission_dicoding/widget/popular_list.dart';
 import '../model/model.dart';
 import 'favorite_screen.dart';
@@ -17,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
   late List<Item> _randomItems;
-  String query = '';
 
   @override
   void initState() {
@@ -33,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const FavoriteScreen(),
       const SearchScreen(),
     ];
-    final results = itemList
-        .where((item) => item.title.toLowerCase().contains(query.toLowerCase()))
-        .toList();
+
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -58,6 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 40,
                       width: 300,
                       child: TextField(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchPageScreen(),
+                            ),
+                          );
+                        },
                         textAlignVertical: TextAlignVertical.center,
                         style: const TextStyle(
                           color: Colors.black87,
@@ -99,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        onChanged: (value) => setState(() => query = value),
                       ),
                     ),
                     GestureDetector(
@@ -165,13 +170,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => DetailScreen(item: item),
                         ),
                       );
+                      setState(() {});
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
