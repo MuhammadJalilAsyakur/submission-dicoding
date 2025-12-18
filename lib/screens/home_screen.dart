@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-// Import Widget & Model
 import 'package:submission_dicoding/model/model.dart';
+import 'package:submission_dicoding/providers/books_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/screens/search_page_screen.dart';
 import 'package:submission_dicoding/widget/popular_list.dart';
 import 'package:submission_dicoding/widget/vertical_book_card.dart'; // Import widget baru
-// Import Screens
 import 'favorite_screen.dart';
 import 'search_screen.dart';
 
@@ -21,12 +20,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
-  late List<Item> _randomItems;
+  late List<Item> randomItems;
+  bool _initialized = false;
 
   @override
-  void initState() {
-    super.initState();
-    _randomItems = List<Item>.from(itemList)..shuffle();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      final items = context.read<BooksProvider>().items;
+      randomItems = List<Item>.from(items)..shuffle();
+      _initialized = true;
+    }
   }
 
   @override
@@ -78,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 40,
             width: 300,
             child: TextField(
-              readOnly: true, // Biar user gak ngetik di sini
+              readOnly: true,
               onTap: () {
                 Navigator.push(
                   context,
@@ -118,7 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Content Utama Home
   Widget _buildHomePageContent(BuildContext context) {
-    final popularItems = itemList.where((item) => item.isPopular).toList();
+    final bookProvider = context.watch<BooksProvider>();
+    final popularItems = bookProvider.popularItems;
     final favoriteProvider = context.watch<FavoriteProvider>();
 
     return SingleChildScrollView(
@@ -137,10 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
             _SectionHeader(title: 'Books For You', onShowAll: () {}),
             const SizedBox(height: 12),
 
-            // Vertical List (Books For You)
-            // Di sini kodenya jadi jauh lebih bersih karena pakai VerticalBookCard
             Column(
-              children: _randomItems.map((item) {
+              children: randomItems.map((item) {
                 return VerticalBookCard(
                   item: item,
                   // Logic Navigasi
@@ -167,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Widget Header Kecil (Bisa ditaruh di file terpisah juga kalau mau)
 class _SectionHeader extends StatelessWidget {
   final String title;
   final VoidCallback onShowAll;

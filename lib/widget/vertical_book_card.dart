@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import '../model/model.dart';
-import '../model/favorite.dart'; // Pastikan import ini benar sesuai struktur foldermu
 
 class VerticalBookCard extends StatelessWidget {
   final Item item;
