@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:submission_dicoding/model/favorite.dart';
+import 'package:provider/provider.dart';
+import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 
-class FavoriteScreen extends StatefulWidget {
+class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
 
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
-}
-
-class _FavoriteScreenState extends State<FavoriteScreen> {
-  @override
   Widget build(BuildContext context) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
+    final favoriteItems = favoriteProvider.favoriteItems;
+
     if (favoriteItems.isEmpty) {
       return const Center(
         child: Column(
@@ -27,6 +26,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
       );
     }
+
     return SafeArea(
       child: ListView.builder(
         itemCount: favoriteItems.length,
@@ -38,11 +38,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => DetailScreen(item: item)),
+                MaterialPageRoute(
+                  builder: (_) => DetailScreen(item: item),
+                ),
               );
             },
             child: Container(
-              color: Colors.transparent,
               margin: const EdgeInsets.only(bottom: 16),
               child: ListTile(
                 leading: Image.network(
@@ -52,26 +53,23 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 ),
                 title: Text(
                   item.title,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 subtitle: Text(item.author),
-                trailing: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (favoriteItems.contains(item)) {
-                        favoriteItems.remove(item);
-                      }
-                    });
-                  },
-                  child: Icon(
-                    favoriteItems.contains(item)
+                trailing: IconButton(
+                  icon: Icon(
+                    favoriteProvider.isFavorite(item)
                         ? Icons.bookmark
                         : Icons.bookmark_border,
-                    size: 22,
-                    color: favoriteItems.contains(item)
+                    color: favoriteProvider.isFavorite(item)
                         ? Colors.amber
                         : Colors.black,
                   ),
+                  onPressed: () {
+                    context
+                        .read<FavoriteProvider>()
+                        .toggleFavorite(item);
+                  },
                 ),
               ),
             ),

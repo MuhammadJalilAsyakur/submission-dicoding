@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:submission_dicoding/model/favorite.dart';
+import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/model/model.dart';
 
@@ -16,15 +18,14 @@ class PopularCard extends StatefulWidget {
 class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
     return GestureDetector(
       onTap: () async {
         await Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => DetailScreen(item: widget.item)),
         );
-        setState(() {
-          
-        });
+        setState(() {});
         widget.onRefresh?.call();
       },
       child: Container(
@@ -94,26 +95,18 @@ class _PopularCardState extends State<PopularCard> {
                 // Di bagian Row paling bawah
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      if (favoriteItems.contains(widget.item)) {
-                        favoriteItems.remove(widget.item);
-                      } else {
-                        favoriteItems.add(widget.item);
-                      }
-                      widget.onRefresh?.call();
-                    });
+                    context.read<FavoriteProvider>().toggleFavorite(widget.item);
                   },
                   // --- KAMU LUPA MENAMBAHKAN INI ---
                   child: Icon(
-                    favoriteItems.contains(widget.item)
+                    favoriteProvider.isFavorite(widget.item)
                         ? Icons.bookmark
                         : Icons.bookmark_border,
-                    color: favoriteItems.contains(widget.item)
+                    color: favoriteProvider.isFavorite(widget.item)
                         ? Colors.green[700]
                         : Colors.grey,
                     size: 26,
                   ),
-
                 ),
               ],
             ),

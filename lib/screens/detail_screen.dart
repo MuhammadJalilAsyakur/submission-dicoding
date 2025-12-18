@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:submission_dicoding/providers/favorite_providers.dart';
 import '../model/model.dart';
-import '../model/favorite.dart';
 
 class DetailScreen extends StatefulWidget {
   final Item item;
@@ -27,6 +28,8 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   Widget _mobileLayout(BuildContext context) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
+
     return SingleChildScrollView(
       child: SafeArea(
         child: Column(
@@ -131,21 +134,14 @@ class _DetailScreenState extends State<DetailScreen> {
                           ]
                         ),
                         child: IconButton(
-                          icon: Icon(favoriteItems.contains(widget.item)
+                          icon: Icon(favoriteProvider.isFavorite(widget.item)
                           ? Icons.bookmark
                           : Icons.bookmark_border),
-                          color: favoriteItems.contains(widget.item)
+                          color: favoriteProvider.isFavorite(widget.item)
                           ? Colors.amberAccent
                           : Colors.grey,
                           onPressed: () {
-                            setState(() {
-                              if(favoriteItems.contains(widget.item)){
-                                favoriteItems.remove(widget.item);
-
-                              } else{
-                                favoriteItems.add(widget.item);
-                              }
-                            });
+                          context.read<FavoriteProvider>().toggleFavorite(widget.item);
                           },
                         ),
                       ),

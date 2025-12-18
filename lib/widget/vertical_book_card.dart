@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:submission_dicoding/providers/favorite_providers.dart';
 import '../model/model.dart';
 import '../model/favorite.dart'; // Pastikan import ini benar sesuai struktur foldermu
 
@@ -16,6 +18,8 @@ class VerticalBookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: GestureDetector(
@@ -75,11 +79,11 @@ class VerticalBookCard extends StatelessWidget {
               onTap: onFavoriteToggle,
               child: Icon(
                 // Menggunakan logic .any() agar lebih akurat
-                favoriteItems.any((e) => e.title == item.title)
+                favoriteProvider.isFavorite(item)
                     ? Icons.bookmark
                     : Icons.bookmark_border,
                 size: 22,
-                color: favoriteItems.any((e) => e.title == item.title)
+                color: favoriteProvider.isFavorite(item)
                     ? Colors.amber
                     : Colors.black,
               ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 // Import Widget & Model
-import 'package:submission_dicoding/model/favorite.dart';
 import 'package:submission_dicoding/model/model.dart';
+import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/screens/search_page_screen.dart';
 import 'package:submission_dicoding/widget/popular_list.dart';
@@ -118,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Content Utama Home
   Widget _buildHomePageContent(BuildContext context) {
     final popularItems = itemList.where((item) => item.isPopular).toList();
+    final favoriteProvider = context.watch<FavoriteProvider>();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -153,29 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   // Logic Bookmark
                   onFavoriteToggle: () {
-                    setState(() {
-                      if (favoriteItems.any((e) => e.title == item.title)) {
-                        favoriteItems.removeWhere((e) => e.title == item.title);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "${item.title} dihapus dari favorite",
-                            ),
-                            duration: const Duration(seconds: 1),
-                          ),
-                        );
-                      } else {
-                        favoriteItems.add(item);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "${item.title} ditambahkan ke favorite",
-                            ),
-                            duration: const Duration(seconds: 1),
-                          ),
-                        );
-                      }
-                    });
+                    context.read<FavoriteProvider>().toggleFavorite(item);
                   },
                 );
               }).toList(),
