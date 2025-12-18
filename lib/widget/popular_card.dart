@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:submission_dicoding/model/favorite.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
