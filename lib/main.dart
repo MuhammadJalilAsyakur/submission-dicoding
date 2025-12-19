@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/providers/books_provider.dart';
+import 'package:submission_dicoding/providers/cart_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/splash_screen.dart';
 
@@ -10,6 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
         ChangeNotifierProvider(create: (_) => BooksProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider())
       ],
       child: MyApp(),
     ),

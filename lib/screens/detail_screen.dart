@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:submission_dicoding/providers/cart_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
+import 'package:submission_dicoding/screens/cart_screen.dart';
 import '../model/model.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  int qty = 0;
+  int qty = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,18 +132,26 @@ class _DetailScreenState extends State<DetailScreen> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
-                          ]
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: IconButton(
-                          icon: Icon(favoriteProvider.isFavorite(widget.item)
-                          ? Icons.bookmark
-                          : Icons.bookmark_border),
+                          icon: Icon(
+                            favoriteProvider.isFavorite(widget.item)
+                                ? Icons.bookmark
+                                : Icons.bookmark_border,
+                          ),
                           color: favoriteProvider.isFavorite(widget.item)
-                          ? Colors.amberAccent
-                          : Colors.grey,
+                              ? Colors.amberAccent
+                              : Colors.grey,
                           onPressed: () {
-                          context.read<FavoriteProvider>().toggleFavorite(widget.item);
+                            context.read<FavoriteProvider>().toggleFavorite(
+                              widget.item,
+                            );
                           },
                         ),
                       ),
@@ -213,7 +223,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                if (qty > 0) {
+                                if (qty > 1) {
                                   qty -= 1;
                                 }
                               });
@@ -258,7 +268,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   Expanded(
                     flex: 3,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<CartProvider>().addToCart(
+                          widget.item,
+                          qty,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CartScreen(),
+                          ),
+                        );
+                      },
+
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green[900],
                         padding: EdgeInsets.symmetric(
@@ -270,7 +292,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                       child: Text(
-                        "Buy Now",
+                        "Add To Cart",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

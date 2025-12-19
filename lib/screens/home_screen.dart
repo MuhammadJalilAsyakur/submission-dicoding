@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:submission_dicoding/model/model.dart';
 import 'package:submission_dicoding/providers/books_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
+import 'package:submission_dicoding/screens/cart_screen.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/screens/search_page_screen.dart';
 import 'package:submission_dicoding/widget/popular_list.dart';
@@ -110,10 +111,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const Icon(
-            Icons.shopping_bag_outlined,
-            size: 28,
-            color: Colors.black,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen()));
+            },
+            child: const Icon(
+              Icons.shopping_bag_outlined,
+              size: 28,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
