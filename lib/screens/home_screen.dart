@@ -113,7 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartScreen()),
+              );
             },
             child: const Icon(
               Icons.shopping_bag_outlined,
@@ -130,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHomePageContent(BuildContext context) {
     final bookProvider = context.watch<BooksProvider>();
     final popularItems = bookProvider.popularItems;
-    final favoriteProvider = context.watch<FavoriteProvider>();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -147,24 +149,25 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 18),
             _SectionHeader(title: 'Books For You', onShowAll: () {}),
             const SizedBox(height: 12),
-
             Column(
               children: randomItems.map((item) {
-                return VerticalBookCard(
-                  item: item,
-                  // Logic Navigasi
-                  onTap: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailScreen(item: item),
-                      ),
+                return Consumer<FavoriteProvider>(
+                  builder: (context, favoriteProvider, _) {
+                    return VerticalBookCard(
+                      item: item,
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => DetailScreen(item: item),
+                          ),
+                        );
+                      },
+                      onFavoriteToggle: () {
+                        context.read<FavoriteProvider>().toggleFavorite(item);
+                      },
+                      isFavorite: favoriteProvider.isFavorite(item),
                     );
-                    setState(() {}); // Refresh saat balik
-                  },
-                  // Logic Bookmark
-                  onFavoriteToggle: () {
-                    context.read<FavoriteProvider>().toggleFavorite(item);
                   },
                 );
               }).toList(),

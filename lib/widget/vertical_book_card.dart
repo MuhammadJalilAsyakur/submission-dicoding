@@ -12,7 +12,7 @@ class VerticalBookCard extends StatelessWidget {
     super.key,
     required this.item,
     required this.onTap,
-    required this.onFavoriteToggle,
+    required this.onFavoriteToggle, required bool isFavorite,
   });
 
   @override
