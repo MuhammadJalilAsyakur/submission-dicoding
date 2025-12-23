@@ -5,6 +5,7 @@ import 'package:submission_dicoding/screens/detail_screen.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
+  static const routeName = '/favoritePage';
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +37,10 @@ class FavoriteScreen extends StatelessWidget {
 
           return GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => DetailScreen(item: item),
-                ),
+                DetailScreen.routeName,
+                arguments: item,
               );
             },
             child: Container(
@@ -66,9 +66,7 @@ class FavoriteScreen extends StatelessWidget {
                         : Colors.black,
                   ),
                   onPressed: () {
-                    context
-                        .read<FavoriteProvider>()
-                        .toggleFavorite(item);
+                    context.read<FavoriteProvider>().toggleFavorite(item);
                   },
                 ),
               ),

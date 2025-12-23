@@ -3,6 +3,7 @@ import 'package:submission_dicoding/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+  static const routeName = '/loginPage';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

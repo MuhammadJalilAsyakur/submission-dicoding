@@ -3,6 +3,7 @@ import '../model/model.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+  static const routeName = '/searchPage';
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();

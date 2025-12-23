@@ -14,6 +14,7 @@ import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+  static const routeName = '/homePage';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -85,12 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               readOnly: true,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchPageScreen(),
-                  ),
-                );
+                Navigator.pushNamed(context, SearchPageScreen.routeName);
               },
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -113,10 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CartScreen()),
-              );
+              Navigator.pushNamed(context, CartScreen.routeName);
             },
             child: const Icon(
               Icons.shopping_bag_outlined,
@@ -156,11 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     return VerticalBookCard(
                       item: item,
                       onTap: () async {
-                        await Navigator.push(
+                        await Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) => DetailScreen(item: item),
-                          ),
+                          DetailScreen.routeName,
+                          arguments: item,
                         );
                       },
                       onFavoriteToggle: () {

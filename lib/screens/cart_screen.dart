@@ -7,6 +7,7 @@ import 'package:submission_dicoding/widget/cart_bottom_bar.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
+  static const routeName = '/cartPage';
 
   @override
   Widget build(BuildContext context) {

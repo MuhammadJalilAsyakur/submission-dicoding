@@ -4,6 +4,7 @@ import 'package:submission_dicoding/screens/detail_screen.dart';
 
 class SearchPageScreen extends StatefulWidget {
   const SearchPageScreen({super.key});
+  static const routeName = '/searchPageScreen';
 
   @override
   State<SearchPageScreen> createState() => _SearchPageScreenState();

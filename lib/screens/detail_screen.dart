@@ -7,6 +7,8 @@ import '../model/model.dart';
 
 class DetailScreen extends StatefulWidget {
   final Item item;
+  static const routeName = '/detailPage';
+
   const DetailScreen({super.key, required this.item});
 
   @override
