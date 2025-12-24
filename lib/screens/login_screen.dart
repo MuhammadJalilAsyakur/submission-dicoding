@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:submission_dicoding/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,10 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = passwordController.text.trim();
 
     if (email == 'a' && password == '1') {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+      Get.offAllNamed(HomeScreen.routeName);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/providers/cart_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
@@ -121,7 +122,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         child: IconButton(
                           icon: Icon(Icons.arrow_back),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: Get.back,
                         ),
                       ),
                     ),
@@ -275,12 +276,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           widget.item,
                           qty,
                         );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CartScreen(),
-                          ),
-                        );
+                        Get.toNamed(CartScreen.routeName);
                       },
 
                       style: ElevatedButton.styleFrom(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
@@ -18,14 +20,10 @@ class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
     final favoriteProvider = context.watch<FavoriteProvider>();
+
     return GestureDetector(
-      onTap: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => DetailScreen(item: widget.item)),
-        );
-        setState(() {});
-        widget.onRefresh?.call();
+      onTap: () {
+        Get.toNamed(DetailScreen.routeName, arguments: widget.item);
       },
       child: Container(
         width: 180,
@@ -91,12 +89,12 @@ class _PopularCardState extends State<PopularCard> {
                     ],
                   ),
                 ),
-                // Di bagian Row paling bawah
                 GestureDetector(
                   onTap: () {
-                    context.read<FavoriteProvider>().toggleFavorite(widget.item);
+                    context.read<FavoriteProvider>().toggleFavorite(
+                      widget.item,
+                    );
                   },
-                  // --- KAMU LUPA MENAMBAHKAN INI ---
                   child: Icon(
                     favoriteProvider.isFavorite(widget.item)
                         ? Icons.bookmark

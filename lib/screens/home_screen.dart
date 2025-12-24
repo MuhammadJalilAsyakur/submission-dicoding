@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/model/model.dart';
 import 'package:submission_dicoding/providers/books_provider.dart';
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               readOnly: true,
               onTap: () {
-                Navigator.pushNamed(context, SearchPageScreen.routeName);
+                Get.toNamed(SearchPageScreen.routeName,);
               },
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, CartScreen.routeName);
+              Get.toNamed(CartScreen.routeName);
             },
             child: const Icon(
               Icons.shopping_bag_outlined,
@@ -149,8 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return VerticalBookCard(
                       item: item,
                       onTap: () async {
-                        await Navigator.pushNamed(
-                          context,
+                        await Get.toNamed(
                           DetailScreen.routeName,
                           arguments: item,
                         );

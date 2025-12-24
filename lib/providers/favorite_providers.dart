@@ -26,5 +26,6 @@ class FavoriteProvider extends ChangeNotifier {
     } else {
       addFavorite(item);
     }
+    notifyListeners();
   }
 }

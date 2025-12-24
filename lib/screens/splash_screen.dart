@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   static const routeName = '/splashPage';
-
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -17,10 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 2), () {
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
+      Get.offAllNamed(LoginScreen.routeName);
     });
   }
 
