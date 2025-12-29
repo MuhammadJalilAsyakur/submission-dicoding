@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:submission_dicoding/model/model.dart';
 import 'package:submission_dicoding/providers/cart_provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/cart_screen.dart';
-import '../model/model.dart';
 
 class DetailScreen extends StatefulWidget {
-  final Item item;
   static const routeName = '/detailPage';
 
-  const DetailScreen({super.key, required this.item});
+  const DetailScreen({super.key});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -18,6 +17,14 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int qty = 1;
+  late final Item item;
+
+  @override
+  void initState() {
+    super.initState();
+    item = Get.arguments as Item;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +51,7 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Card(
                 elevation: 0,
                 shadowColor: Colors.transparent,
-                color: widget.item.backgroundColor,
+                color: item.backgroundColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -61,14 +68,14 @@ class _DetailScreenState extends State<DetailScreen> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(16),
                             child: Image.network(
-                              widget.item.image,
+                              item.image,
                               width: 250,
                               fit: BoxFit.cover,
                             ),
                           ),
                           SizedBox(height: 16),
                           Text(
-                            widget.item.title,
+                            item.title,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -77,7 +84,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            'by ${widget.item.author}',
+                            'by ${item.author}',
                             style: TextStyle(color: Colors.grey),
                           ),
                           SizedBox(height: 10),
@@ -85,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(5, (index) {
-                              double rating = widget.item.rating;
+                              double rating = item.rating;
 
                               if (index < rating.floor()) {
                                 return Icon(
@@ -144,16 +151,16 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         child: IconButton(
                           icon: Icon(
-                            favoriteProvider.isFavorite(widget.item)
+                            favoriteProvider.isFavorite(item)
                                 ? Icons.bookmark
                                 : Icons.bookmark_border,
                           ),
-                          color: favoriteProvider.isFavorite(widget.item)
+                          color: favoriteProvider.isFavorite(item)
                               ? Colors.amberAccent
                               : Colors.grey,
                           onPressed: () {
                             context.read<FavoriteProvider>().toggleFavorite(
-                              widget.item,
+                              item,
                             );
                           },
                         ),
@@ -180,7 +187,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                       Text(
-                        '\$${widget.item.price.toStringAsFixed(2)}',
+                        '\$${item.price.toStringAsFixed(2)}',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -191,7 +198,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text(widget.item.description),
+                  Text(item.description),
                 ],
               ),
             ),
@@ -272,10 +279,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     flex: 3,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<CartProvider>().addToCart(
-                          widget.item,
-                          qty,
-                        );
+                        context.read<CartProvider>().addToCart(item, qty);
                         Get.toNamed(CartScreen.routeName);
                       },
 
@@ -308,19 +312,16 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  Widget _wideLayout() {
+  _wideLayout() {
     return Row(
       children: [
         Expanded(
-          child: Hero(
-            tag: widget.item.title,
-            child: Image.network(widget.item.image),
-          ),
+          child: Hero(tag: item.title, child: Image.network(item.image)),
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(32),
-            child: Text(widget.item.description),
+            child: Text(item.description),
           ),
         ),
       ],

@@ -18,10 +18,7 @@ class AppPages {
     ),
     GetPage(
       name: DetailScreen.routeName,
-      page: () {
-        final item = Get.arguments;
-        return DetailScreen(item: item);
-      },
+      page: () => DetailScreen(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
     ),
@@ -37,7 +34,7 @@ class AppPages {
       transition: Transition.fadeIn,
       transitionDuration: const Duration(seconds: 300),
     ),
-    GetPage(name: LoginScreen.routeName, page: () => const LoginScreen()),
+    GetPage(name: LoginScreen.routeName, page: () => const LoginScreen(),), 
     GetPage(
       name: SearchPageScreen.routeName,
       page: () => const SearchPageScreen(),

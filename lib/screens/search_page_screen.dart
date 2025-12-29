@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:submission_dicoding/model/model.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 
@@ -94,13 +95,7 @@ class _SearchPageScreenState extends State<SearchPageScreen> {
                   ),
                   subtitle: Text(item.author),
                   onTap: () async {
-                    // Masuk ke detail
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailScreen(item: item),
-                      ),
-                    );
+                    await Get.toNamed(DetailScreen.routeName, arguments: item);
                     setState(() {});
                   },
                 );

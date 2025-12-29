@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:submission_dicoding/providers/cart_provider.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
+import 'package:submission_dicoding/controllers/cart_controller.dart';
 import 'package:submission_dicoding/widget/cart_item_card.dart';
 import 'package:submission_dicoding/widget/cart_bottom_bar.dart';
 
@@ -11,6 +12,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.find<CartController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -30,40 +32,38 @@ class CartScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz)),
         ],
       ),
-      body: SafeArea(
-        child: Consumer<CartProvider>(
-          builder: (context, cartProvider, _) {
-            if (cartProvider.items.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.shopping_bag),
-                    SizedBox(height: 16),
-                    Text(
-                      'ADAAA yang lu mau belii',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ],
-                ),
-              );
-            }
-            return Column(
+      body: Obx(() {
+        final items = cartController.items;
+
+        if (items.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: cartProvider.items.length,
-                    itemBuilder: (context, index) {
-                      return CartItemCard(cartItem: cartProvider.items[index]);
-                    },
-                  ),
+                Icon(Icons.shopping_bag),
+                SizedBox(height: 16),
+                Text(
+                  'ADAAA yang lu mau belii',
+                  style: TextStyle(color: Colors.grey),
                 ),
-                CartBottomBar(),
               ],
-            );
-          },
-        ),
-      ),
+            ),
+          );
+        }
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return CartItemCard(cartItem: items[index]);
+                },
+              ),
+            ),
+            CartBottomBar(),
+          ],
+        );
+      }),
     );
   }
 }

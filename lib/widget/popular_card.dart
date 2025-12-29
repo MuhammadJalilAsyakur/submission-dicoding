@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
 import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';

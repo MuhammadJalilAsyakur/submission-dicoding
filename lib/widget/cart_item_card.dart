@@ -7,7 +7,7 @@ class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
 
   const CartItemCard({super.key, required this.cartItem});
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
