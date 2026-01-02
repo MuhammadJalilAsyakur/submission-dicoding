@@ -8,11 +8,12 @@ class CartController extends GetxController {
   void addItem(Item item) {
     final index = items.indexWhere((e) => e.item == item);
 
-    if (index > 0) {
+    if (index >= 0) {
       items[index].quantity++;
     } else {
-      items.add(CartItem(item: item));
+      items.add(CartItem(item: item, quantity: 1));
     }
+    items.refresh();
   }
 
   void incrementItem(Item item) {
@@ -24,13 +25,13 @@ class CartController extends GetxController {
     }
   }
 
-  void decrementItem(Item item){
+  void decrementItem(Item item) {
     final index = items.indexWhere((e) => e.item == item);
 
-    if(index >= 0){
+    if (index >= 0 && items[index].quantity > 1) {
       items[index].quantity--;
       items.refresh();
-    } else{
+    } else {
       items.removeAt(index);
     }
   }
@@ -40,7 +41,10 @@ class CartController extends GetxController {
     update();
   }
 
-  bool isInCart(Item item) {
-    return items.contains(item);
+  double get totalPrice {
+    return items.fold(
+      0.0,
+      (sum, cartItem) => sum + (cartItem.item.price * cartItem.quantity),
+    );
   }
 }

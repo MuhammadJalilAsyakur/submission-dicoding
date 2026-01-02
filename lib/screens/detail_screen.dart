@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:submission_dicoding/controllers/cart_controller.dart';
+import 'package:submission_dicoding/controllers/favorite_controller.dart';
 import 'package:submission_dicoding/model/model.dart';
-import 'package:submission_dicoding/providers/cart_provider.dart';
-import 'package:submission_dicoding/providers/favorite_providers.dart';
 import 'package:submission_dicoding/screens/cart_screen.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -40,7 +39,8 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   Widget _mobileLayout(BuildContext context) {
-    final favoriteProvider = context.watch<FavoriteProvider>();
+    final CartController cartController = Get.find();
+    final favC = Get.find<FavoriteController>();
 
     return SingleChildScrollView(
       child: SafeArea(
@@ -149,21 +149,21 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                           ],
                         ),
-                        child: IconButton(
-                          icon: Icon(
-                            favoriteProvider.isFavorite(item)
-                                ? Icons.bookmark
-                                : Icons.bookmark_border,
-                          ),
-                          color: favoriteProvider.isFavorite(item)
-                              ? Colors.amberAccent
-                              : Colors.grey,
-                          onPressed: () {
-                            context.read<FavoriteProvider>().toggleFavorite(
-                              item,
-                            );
-                          },
-                        ),
+                        child: Obx(() {
+                          return IconButton(
+                            icon: Icon(
+                              favC.isFavorite(item)
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                            ),
+                            color: favC.isFavorite(item)
+                                ? Colors.amberAccent
+                                : Colors.grey, 
+                            onPressed: () {
+                              favC.toggleFavorite(item);
+                            },
+                          );
+                        }),
                       ),
                     ),
                   ],
@@ -279,7 +279,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     flex: 3,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<CartProvider>().addToCart(item, qty);
+                        cartController.addItem(item);
                         Get.toNamed(CartScreen.routeName);
                       },
 
@@ -312,7 +312,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  _wideLayout() {
+  Widget _wideLayout() {
     return Row(
       children: [
         Expanded(

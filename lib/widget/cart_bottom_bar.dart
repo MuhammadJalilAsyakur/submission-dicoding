@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:submission_dicoding/providers/cart_provider.dart';
+import 'package:get/get.dart';
+import 'package:submission_dicoding/controllers/cart_controller.dart';
 
 class CartBottomBar extends StatelessWidget {
   const CartBottomBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.find();
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
@@ -34,19 +35,17 @@ class CartBottomBar extends StatelessWidget {
                   fontFamily: 'Poppins',
                 ),
               ),
-              Consumer<CartProvider>(
-                builder: (context, cart, _) {
-                  return Text(
-                    '\$${cart.totalPrice.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                    ),
-                  );
-                },
-              ),
+              Obx(() {
+                return Text(
+                  '\$${cartController.totalPrice.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
+                );
+              }),
             ],
           ),
           const SizedBox(height: 16),

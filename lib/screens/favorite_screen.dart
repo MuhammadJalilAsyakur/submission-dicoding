@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:submission_dicoding/providers/favorite_providers.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/route_manager.dart';
+import 'package:submission_dicoding/controllers/favorite_controller.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -9,10 +10,11 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final favoriteProvider = context.watch<FavoriteProvider>();
-    final favoriteItems = favoriteProvider.favoriteItems;
+    final favC = Get.find<FavoriteController>();
+    final favItem = favC.favoriteItems;
 
-    if (favoriteItems.isEmpty) {
+
+    if (favItem.isEmpty) {
       return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,10 +32,10 @@ class FavoriteScreen extends StatelessWidget {
 
     return SafeArea(
       child: ListView.builder(
-        itemCount: favoriteItems.length,
+        itemCount: favItem.length,
         padding: const EdgeInsets.all(16),
         itemBuilder: (context, index) {
-          final item = favoriteItems[index];
+          final item = favItem[index];
 
           return GestureDetector(
             onTap: () {
@@ -58,15 +60,15 @@ class FavoriteScreen extends StatelessWidget {
                 subtitle: Text(item.author),
                 trailing: IconButton(
                   icon: Icon(
-                    favoriteProvider.isFavorite(item)
+                    favC.isFavorite(item)
                         ? Icons.bookmark
                         : Icons.bookmark_border,
-                    color: favoriteProvider.isFavorite(item)
+                    color: favC.isFavorite(item)
                         ? Colors.amber
                         : Colors.black,
                   ),
                   onPressed: () {
-                    context.read<FavoriteProvider>().toggleFavorite(item);
+                    favC.toggleFavorite(item);
                   },
                 ),
               ),

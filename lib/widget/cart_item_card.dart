@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/cart_provider.dart';
+import 'package:get/get.dart';
+import 'package:submission_dicoding/controllers/cart_controller.dart';
 import '../model/cart_item.dart';
 
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
 
   const CartItemCard({super.key, required this.cartItem});
-  
+
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.find();
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
@@ -69,9 +70,7 @@ class CartItemCard extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.remove),
                           onPressed: () {
-                            context.read<CartProvider>().decrement(
-                              cartItem.item,
-                            );
+                            cartController.decrementItem(cartItem.item);
                           },
                         ),
 
@@ -82,9 +81,7 @@ class CartItemCard extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.add),
                           onPressed: () {
-                            context.read<CartProvider>().increment(
-                              cartItem.item,
-                            );
+                            cartController.incrementItem(cartItem.item);
                           },
                         ),
 

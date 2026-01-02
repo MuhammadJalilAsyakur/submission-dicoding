@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:submission_dicoding/providers/favorite_providers.dart';
+import 'package:submission_dicoding/controllers/favorite_controller.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/model/model.dart';
 
@@ -18,8 +17,7 @@ class PopularCard extends StatefulWidget {
 class _PopularCardState extends State<PopularCard> {
   @override
   Widget build(BuildContext context) {
-    final favoriteProvider = context.watch<FavoriteProvider>();
-
+    final favC = Get.find<FavoriteController>();
     return GestureDetector(
       onTap: () {
         Get.toNamed(DetailScreen.routeName, arguments: widget.item);
@@ -90,19 +88,19 @@ class _PopularCardState extends State<PopularCard> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.read<FavoriteProvider>().toggleFavorite(
-                      widget.item,
-                    );
+                    favC.toggleFavorite(widget.item);
                   },
-                  child: Icon(
-                    favoriteProvider.isFavorite(widget.item)
-                        ? Icons.bookmark
-                        : Icons.bookmark_border,
-                    color: favoriteProvider.isFavorite(widget.item)
-                        ? Colors.green[700]
-                        : Colors.grey,
-                    size: 26,
-                  ),
+                  child: Obx(() {
+                    return Icon(
+                      favC.isFavorite(widget.item)
+                          ? Icons.bookmark
+                          : Icons.bookmark_border,
+                      color: favC.isFavorite(widget.item)
+                          ? Colors.green[700]
+                          : Colors.grey,
+                      size: 26,
+                    );
+                  }),
                 ),
               ],
             ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/route_manager.dart';
-import 'package:provider/provider.dart';
-import 'package:submission_dicoding/model/model.dart';
-import 'package:submission_dicoding/providers/books_provider.dart';
-import 'package:submission_dicoding/providers/favorite_providers.dart';
+import 'package:get/get.dart';
+import 'package:submission_dicoding/controllers/books_controller.dart';
+import 'package:submission_dicoding/controllers/favorite_controller.dart';
 import 'package:submission_dicoding/screens/cart_screen.dart';
 import 'package:submission_dicoding/screens/detail_screen.dart';
 import 'package:submission_dicoding/screens/search_page_screen.dart';
@@ -23,18 +21,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
-  late List<Item> randomItems;
-  bool _initialized = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!_initialized) {
-      final items = context.read<BooksProvider>().items;
-      randomItems = List<Item>.from(items)..shuffle();
-      _initialized = true;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: TextField(
               readOnly: true,
               onTap: () {
-                Get.toNamed(SearchPageScreen.routeName,);
+                Get.toNamed(SearchPageScreen.routeName);
               },
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -125,8 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Content Utama Home
   Widget _buildHomePageContent(BuildContext context) {
-    final bookProvider = context.watch<BooksProvider>();
-    final popularItems = bookProvider.popularItems;
+    final favC = Get.find<FavoriteController>();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -138,31 +123,31 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
 
             // Popular List
-            PopularList(items: popularItems, onRefresh: () => setState(() {})),
-
+            GetBuilder<BooksController>(
+              builder: (bookC) {
+                return PopularList(
+                  items: bookC.popularBooks,
+                  onRefresh: () => bookC.update(),
+                );
+              },
+            ),
             const SizedBox(height: 18),
             _SectionHeader(title: 'Books For You', onShowAll: () {}),
             const SizedBox(height: 12),
-            Column(
-              children: randomItems.map((item) {
-                return Consumer<FavoriteProvider>(
-                  builder: (context, favoriteProvider, _) {
+
+            GetX<BooksController>(
+              builder: (bookC) {
+                return Column(
+                  children: bookC.shuflleBooks.map((item) {
                     return VerticalBookCard(
                       item: item,
-                      onTap: () async {
-                        await Get.toNamed(
-                          DetailScreen.routeName,
-                          arguments: item,
-                        );
-                      },
-                      onFavoriteToggle: () {
-                        context.read<FavoriteProvider>().toggleFavorite(item);
-                      },
-                      isFavorite: favoriteProvider.isFavorite(item),
+                      onTap: () =>
+                          Get.toNamed(DetailScreen.routeName, arguments: item),
+                      onFavoriteToggle: () => favC.toggleFavorite(item),
                     );
-                  },
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
           ],
         ),

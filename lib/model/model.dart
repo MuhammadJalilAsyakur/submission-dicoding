@@ -34,7 +34,7 @@ final List<Item> itemList = [
     rating: 5,
     backgroundColor: Color(0xFFFFF3E0),
     price: 29.00,
-    isPopular: true,
+    isPopular: false,
   ),
 
   Item(

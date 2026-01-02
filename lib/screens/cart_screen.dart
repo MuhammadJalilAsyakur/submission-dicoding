@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:submission_dicoding/controllers/cart_controller.dart';
 import 'package:submission_dicoding/widget/cart_item_card.dart';
 import 'package:submission_dicoding/widget/cart_bottom_bar.dart';
@@ -50,18 +49,20 @@ class CartScreen extends StatelessWidget {
             ),
           );
         }
-        return Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return CartItemCard(cartItem: items[index]);
-                },
+        return SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return CartItemCard(cartItem: items[index]);
+                  },
+                ),
               ),
-            ),
-            CartBottomBar(),
-          ],
+              CartBottomBar(),
+            ],
+          ),
         );
       }),
     );
